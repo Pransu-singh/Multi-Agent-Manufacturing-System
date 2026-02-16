@@ -42,17 +42,18 @@ The system consists of the following agents:
 
 ## 🔄 Workflow
 
-User Query
-↓
-Coordinator Agent
-↓
-Researcher Agent → Data Collection
-↓
-Analyst Agent → Evaluation / Comparison
-↓
-Writer Agent → Structured Output
-↓
-User Dashboard
+- User Query  
+- ↓  
+- Coordinator Agent  
+- ↓  
+- Researcher Agent → Data Collection  
+- ↓  
+- Analyst Agent → Evaluation / Comparison  
+- ↓  
+- Writer Agent → Structured Output  
+- ↓  
+- User Dashboard  
+
 
 
 ---

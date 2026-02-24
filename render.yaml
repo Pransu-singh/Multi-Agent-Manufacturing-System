@@ -1,0 +1,39 @@
+    services:
+      - type: web
+        name: mfg-agent-backend
+        runtime: python
+        region: oregon
+        plan: starter          # upgrade to 'standard' for production
+        
+        buildCommand: pip install -e .
+        startCommand: gunicorn backend.app:app --workers 2 --threads 4 --timeout 120
+        
+        healthCheckPath: /api/health
+        autoDeploy: true
+
+        envVars:
+          # ── Required ──────────────────────────────────────────────────────────
+          - key: GROQ_API_KEY
+            sync: false        # enter manually in Render dashboard
+          - key: FIREBASE_PROJECT_ID
+            sync: false
+          - key: FIREBASE_CREDENTIALS_B64
+            sync: false        # paste the full B64 JSON string
+          - key: SUPABASE_URL
+            sync: false
+          - key: SUPABASE_SERVICE_ROLE_KEY
+            sync: false
+            
+          # ── Optional ──────────────────────────────────────────────────────────
+          - key: TAVILY_API_KEY
+            sync: false
+          - key: SERPER_API_KEY
+            sync: false
+
+          # ── App config ────────────────────────────────────────────────────────
+          - key: PORT
+            value: "5000"
+          - key: DEBUG
+            value: "false"
+          - key: CORS_ORIGINS
+            value: "https://mfg-agent.vercel.app/"  # update after Vercel deploy

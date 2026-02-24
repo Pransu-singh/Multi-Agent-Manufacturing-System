@@ -1,23 +1,17 @@
 # Manufacturing Agent System — Python Dependencies
 # pip install -r requirements.txt
 
-# ── LLM (direct SDK — no LiteLLM proxy needed) ───────────────
-groq>=0.9.0
-
-# ── CrewAI core only ─────────────────────────────────────────
-# Do NOT install litellm[proxy] — it pulls in fastapi and causes
-# ImportError on minimal environments. crewai's core depends on
-# litellm base, which is fine; only the [proxy] extra breaks things.
-crewai>=0.80.0
-
-# ── Web scraping ──────────────────────────────────────────────
-requests>=2.31.0
 beautifulsoup4>=4.12.0
-lxml>=5.0.0
-
-# ── Free search (no API key needed) ──────────────────────────
 duckduckgo-search>=6.1.0
-
-# ── Server ───────────────────────────────────────────────────
+firebase-admin>=6.4.0
 flask>=3.0.0
 flask-cors>=4.0.0
+groq>=0.9.0
+lxml>=5.0.0
+requests>=2.31.0
+gunicorn>=21.2.0
+python-dotenv>=1.2.1
+supabase
+reportlab>=4.0.0
+pytest>=8.0
+pytest-asyncio>=0.23

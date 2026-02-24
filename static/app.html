@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>MFG Agent — AI Supplier Finder</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1117'/%3E%3Ccircle cx='32' cy='32' r='10' fill='none' stroke='%234f7cff' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='4' fill='%234f7cff'/%3E%3Crect x='29.5' y='8' width='5' height='8' rx='2' fill='%234f7cff'/%3E%3Crect x='29.5' y='48' width='5' height='8' rx='2' fill='%234f7cff'/%3E%3Crect x='8' y='29.5' width='8' height='5' rx='2' fill='%234f7cff'/%3E%3Crect x='48' y='29.5' width='8' height='5' rx='2' fill='%234f7cff'/%3E%3Crect x='14.5' y='14.5' width='5' height='8' rx='2' fill='%234f7cff' transform='rotate(45 17 18.5)'/%3E%3Crect x='44.5' y='14.5' width='5' height='8' rx='2' fill='%234f7cff' transform='rotate(-45 47 18.5)'/%3E%3Crect x='14.5' y='41.5' width='5' height='8' rx='2' fill='%234f7cff' transform='rotate(-45 17 45.5)'/%3E%3Crect x='44.5' y='41.5' width='5' height='8' rx='2' fill='%234f7cff' transform='rotate(45 47 45.5)'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/vars.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <header>
+    <div class="header-left">
+      <button class="menu-btn" id="menu-btn" aria-label="Menu">☰</button>
+      <div class="logo">
+        <svg width="22" height="22" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="64" height="64" rx="14" fill="#0f1117"/>
+          <circle cx="32" cy="32" r="10" stroke="#4f7cff" stroke-width="3"/>
+          <circle cx="32" cy="32" r="4" fill="#4f7cff"/>
+          <rect x="29.5" y="8"  width="5" height="8" rx="2" fill="#4f7cff"/>
+          <rect x="29.5" y="48" width="5" height="8" rx="2" fill="#4f7cff"/>
+          <rect x="8"  y="29.5" width="8" height="5" rx="2" fill="#4f7cff"/>
+          <rect x="48" y="29.5" width="8" height="5" rx="2" fill="#4f7cff"/>
+          <rect x="14.5" y="14.5" width="5" height="8" rx="2" fill="#4f7cff" transform="rotate(45 17 18.5)"/>
+          <rect x="44.5" y="14.5" width="5" height="8" rx="2" fill="#4f7cff" transform="rotate(-45 47 18.5)"/>
+          <rect x="14.5" y="41.5" width="5" height="8" rx="2" fill="#4f7cff" transform="rotate(-45 17 45.5)"/>
+          <rect x="44.5" y="41.5" width="5" height="8" rx="2" fill="#4f7cff" transform="rotate(45 47 45.5)"/>
+        </svg>
+        MFG<span>Agent</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="user-chip">
+        <img id="user-photo" src="" alt=""
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><circle cx=%2212%22 cy=%2212%22 r=%2212%22 fill=%22%234f7cff%22/><text x=%2212%22 y=%2217%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2214%22>U</text></svg>'">
+        <span class="user-name" id="user-name"></span>
+      </div>
+      <button class="signout-btn" id="signout-btn">Sign out</button>
+    </div>
+  </header>
+
+  <!-- ── Sidebar overlay (mobile) ───────────────────────────────────────── -->
+  <div id="sidebar-overlay"></div>
+
+  <!-- ── Sidebar ────────────────────────────────────────────────────────── -->
+  <aside id="sidebar">
+    <div class="sidebar-section">
+      <button class="new-search-btn" id="new-search-btn">
+        <span>＋</span> New Search
+      </button>
+    </div>
+    <div class="history-label">History</div>
+    <div class="history-list" id="sidebar-history"></div>
+  </aside>
+
+  <!-- ── Main ───────────────────────────────────────────────────────────── -->
+  <main>
+
+    <!-- Welcome / search -->
+    <div id="welcome-screen">
+      <div class="welcome-emoji">🔍</div>
+      <h2 class="welcome-title">Find Manufacturing Suppliers</h2>
+      <p class="welcome-sub">
+        Describe what you're sourcing and where — our AI agents will scan B2B
+        directories, trade sites, and the web to find verified suppliers.
+      </p>
+      <div class="search-box">
+        <textarea id="main-query" rows="3"
+          placeholder="e.g. Find aluminum extrusion suppliers in India with ISO 9001..."></textarea>
+        <button class="send-btn" id="main-send-btn">➤</button>
+      </div>
+      <div class="examples">
+        <div class="example-chip" data-query="Find aluminum suppliers in India">
+          <span class="example-icon">🏭</span>
+          Find aluminum suppliers in India
+        </div>
+
+        <div class="example-chip" data-query="Find PCB manufacturers in China">
+          <span class="example-icon">🔌</span>
+          Find PCB manufacturers in China
+        </div>
+
+        <div class="example-chip" data-query="Find steel pipe suppliers in Germany">
+          <span class="example-icon">🔩</span>
+          Find steel pipe suppliers in Germany
+        </div>
+
+        <div class="example-chip" data-query="Find plastic injection molding companies in Taiwan">
+          <span class="example-icon">🧩</span>
+          Find plastic injection molding companies in Taiwan
+        </div>
+
+        <div class="example-chip" data-query="Find rubber gasket suppliers in Maharashtra">
+          <span class="example-icon">⭕</span>
+          Find rubber gasket suppliers in Maharashtra
+        </div>
+
+        <div class="example-chip" data-query="Find textile fabric wholesalers in Bangladesh">
+          <span class="example-icon">🧵</span>
+          Find textile fabric wholesalers in Bangladesh
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="results-screen">
+      <div class="results-header">
+        <span id="results-query-label" class="results-query"></span>
+        <span id="results-status" class="status-badge running">
+          <span class="spinner"></span> Running
+        </span>
+        <button class="btn btn-danger" id="stop-btn"     style="display:none">⏹ Stop</button>
+        <button class="btn btn-ghost"  id="dl-txt-btn"   style="display:none">⬇ TXT</button>
+        <button class="btn btn-ghost"  id="dl-json-btn"  style="display:none">⬇ JSON</button>
+        <button class="btn btn-ghost"  id="dl-pdf-btn"   style="display:none">⬇ PDF</button>
+      </div>
+
+      <div class="results-tabs">
+        <button class="res-tab active">Live Log</button>
+        <button class="res-tab">Suppliers <span id="supp-count"></span></button>
+        <button class="res-tab">Report</button>
+      </div>
+
+      <div class="results-body">
+        <div id="tab-live">
+          <div class="progress-bar-wrap" id="progress-wrap">
+            <div class="progress-bar" id="progress-bar" style="width:5%"></div>
+          </div>
+          <div class="log-panel" id="log-panel"></div>
+        </div>
+
+        <div id="tab-suppliers" style="display:none">
+          <div class="suppliers-grid" id="suppliers-grid"></div>
+        </div>
+
+        <div id="tab-report" style="display:none">
+          <div class="report-content" id="report-content">
+            <p style="color:var(--muted)">Report will appear here when the pipeline completes…</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast-container" id="toasts"></div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+<!-- Markdown -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+
+<!-- App scripts — order matters -->
+<script src="js/firebase.js"></script>
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

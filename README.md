@@ -24,11 +24,8 @@ ManufacturingOrchestrator
 ```
 
 **Key design decisions:**
-- `scraper.py` is a pure HTTP module with zero LLM dependency — can be used standalone
-- `agents_nocrew.py` owns all LLM + orchestration logic
-- `PipelineState` is the shared hand-off object between agents
-- Each pipeline run gets a `threading.Event` for cancellation (Stop button)
-- Reports are held in an in-memory store — nothing is written to disk
+- `backend/scraper/` is a pure HTTP module with zero LLM dependency — can be used standalone
+- `backend/agents/` owns all LLM + orchestration logic
 
 ---
 
@@ -46,18 +43,6 @@ ManufacturingOrchestrator
 
 ---
 
-## Project Structure
-
-```
-├── agent_nocrew.py          # Agent orchestration, LLM calls, Flask server
-├── scraper.py         # Multi-source HTTP scraper (standalone module)
-├── static/
-│   └── index.html     # Chat UI (single-file, no build step)
-├── requirements.txt
-└── .env               # API keys (never commit this)
-```
-
----
 
 ## Quick Start
 
@@ -77,22 +62,6 @@ Copy the example and fill in your keys:
 cp .env.example .env
 ```
 
-```ini
-# .env
-
-# Required
-GROQ_API_KEY=gsk_...          # https://console.groq.com (free tier available)
-
-# Optional — better search quality
-TAVILY_API_KEY=tvly-...       # https://tavily.com  (1 000 free req/month)
-SERPER_API_KEY=...            # https://serper.dev  (2 500 free req)
-
-# Optional — tuning
-GROQ_MODEL=llama-3.3-70b-versatile   # default model
-PORT=5000
-HOST=0.0.0.0
-DEBUG=false
-```
 
 > DuckDuckGo search is always enabled as a free fallback — the system works with just `GROQ_API_KEY`.
 
@@ -100,13 +69,7 @@ DEBUG=false
 
 **Web UI (recommended):**
 ```bash
-python agents_nocrew.py --server
-# → http://localhost:5000
-```
-
-**CLI (headless):**
-```bash
-python agents_nocrew.py "Find textile fabric wholesalers in Bangladesh"
+python -m backend
 ```
 
 ---
@@ -196,21 +159,6 @@ After a run completes, three download options appear in the report header:
 | 🖨 PDF | PDF (via browser) | Click → browser print dialog → "Save as PDF" |
 
 Reports are kept in server memory for the duration of the process (max 50 reports, oldest evicted). They are **not** written to disk.
-
----
-
-## Requirements
-
-```
-Python 3.10+
-groq>=0.9.0
-requests>=2.31.0
-beautifulsoup4>=4.12.0
-lxml>=5.0.0
-duckduckgo-search>=6.1.0
-flask>=3.0.0
-flask-cors>=4.0.0
-```
 
 ---
 

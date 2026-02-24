@@ -49,7 +49,7 @@ ManufacturingOrchestrator
 ### 1. Clone and install
 
 ```bash
-git clone [https://github.com/pransu-singhMulti-Agent-Manufacturing-System](https://github.com/Pransu-singh/Multi-Agent-Manufacturing-System).git
+git clone https://github.com/Pransu-singh/Multi-Agent-Manufacturing-System.git
 cd Multi-Agent-Manufacturing-System
 pip install -r requirements.txt
 ```

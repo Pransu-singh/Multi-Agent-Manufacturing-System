@@ -1,0 +1,21 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+dist/
+build/
+*.egg-info/
+
+# Secrets
+.env
+backend/firebase_key.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# uv build artifacts
+*.egg-info/
+mfg_agent_ai_supplier_finder.egg-info/
